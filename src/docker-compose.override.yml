@@ -1,0 +1,20 @@
+version: '3.4'
+
+services:
+  managementdb:
+    container_name: managementdb
+    restart: always
+    ports:
+     - "27017:27017"
+    volumes:
+     - mongo_data:/data/db
+
+  management.api:
+    container_name: management.api
+    environment:
+     - ASPNETCORE_ENVIRONMENT=Development
+     - "DatabaseSettings:ConnectionString=mongodb://managementdb:27017"
+    depends_on:
+     - managementdb
+    ports:
+      - "8000:80"
