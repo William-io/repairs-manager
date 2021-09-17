@@ -12,7 +12,7 @@ namespace Management.Domain.Entities
         [BsonElement("Name")] //Mapeamento de nome para BSonValue
         public string Name { get; set; } //Nome da peça: Antena, Auto-falante, (Bateria)
 
-        public string Category { get; set; } //Accessory, Console, Laptops, Other, (Phone)
+        public string Category { get; set; } //Accessory, Console, Laptops, Other, (Phone), 
         public string Make { get; set; } //JBL, (Samsung), Philips, 
         public string Model { get; set; } // (J7PRO)
         public string Note { get; set; }
