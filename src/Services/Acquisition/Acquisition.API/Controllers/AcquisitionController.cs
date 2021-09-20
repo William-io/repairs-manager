@@ -5,6 +5,8 @@ using System.Net;
 
 namespace Acquisition.API.Controllers
 {
+    [ApiController]
+    [Route("api/v1/[controller]")]
     public class AcquisitionController : ControllerBase
     {
         private readonly IAcquisitionRepository _repository;

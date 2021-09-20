@@ -4,11 +4,32 @@ services:
   managementdb:
     image: mongo
 
+  acquisitiondb:
+    image: redis:alpine
+
+  discountdb:
+    image: postgres
+
+  pgadmin:
+    image: dpage/pgadmin4
+
+  portainer:
+    image: portainer/portainer-ce
+
   management.api:
     image: ${DOCKER_REGISTRY-}managementapi
     build:
       context: .
       dockerfile: Services/Management/Management.API/Dockerfile
 
+  acquisition.api:
+    image: ${DOCKER_REGISTRY-}acquisitionapi
+    build:
+      context: .
+      dockerfile: Services/Acquisition/Acquisition.API/Dockerfile
+
 volumes:
   mongo_data:
+  portainer_data:
+  postgres_data:
+  pgadmin_data:
