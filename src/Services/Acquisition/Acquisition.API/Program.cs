@@ -1,11 +1,13 @@
-using Microsoft.OpenApi.Models;
+using Acquisition.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddStackExchangeRedisCache(options =>
 {
-    options.Configuration = Configuration.GetValue<string>("CacheSettings:ConnectionString");
+    options.Configuration = builder.Configuration.GetValue<string>("CacheSettings:ConnectionString");
 });
+
+builder.Services.AddScoped<IAcquisitionRepository, AcquisitionRepository>();
 
 // Add services to the container.
 

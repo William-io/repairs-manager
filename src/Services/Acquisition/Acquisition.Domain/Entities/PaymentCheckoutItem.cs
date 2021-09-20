@@ -1,4 +1,4 @@
-﻿namespace Acquisition.API.Entities
+﻿namespace Acquisition.Domain.Entities
 {
     public class PaymentCheckoutItem
     {
