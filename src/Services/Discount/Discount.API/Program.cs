@@ -1,28 +1,21 @@
-using Discount.API.Repositories;
+﻿using Discount.API.Extensions;
 
-var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-
-builder.Services.AddScoped<IDiscountRepository, DiscountRepository>();
-
-builder.Services.AddControllers();
-builder.Services.AddSwaggerGen(c =>
+namespace Discount.API
 {
-    c.SwaggerDoc("v1", new() { Title = "Discount.API", Version = "v1" });
-});
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            var host = CreateHostBuilder(args).Build();
+            host.MigrateDatabase<Program>();
+            host.Run();
+        }
 
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Discount.API v1"));
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                });
+    }
 }
-
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.Run();
