@@ -10,6 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Grpc.AspNetCore" Version="2.32.0" />
     <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="6.0.0-rc.1.21452.15" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0-rc.1.21451.13" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="6.0.0-rc.1.21451.13" />
@@ -22,6 +23,12 @@
   <ItemGroup>
     <ProjectReference Include="..\Acquisition.Domain\Acquisition.Domain.csproj" />
     <ProjectReference Include="..\Acquisition.Infrastructure\Acquisition.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="..\..\Discount\Discount.Grpc\Protos\discount.proto" GrpcServices="Client">
+      <Link>Protos\discount.proto</Link>
+    </Protobuf>
   </ItemGroup>
 
 </Project>

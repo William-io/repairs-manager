@@ -1,4 +1,5 @@
-﻿using Acquisition.Domain.Entities;
+﻿using Acquisition.API.GrpcService;
+using Acquisition.Domain.Entities;
 using Acquisition.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -10,10 +11,12 @@ namespace Acquisition.API.Controllers
     public class AcquisitionController : ControllerBase
     {
         private readonly IAcquisitionRepository _repository;
+        private readonly DiscountGrpcService _discountGrpcService;
 
-        public AcquisitionController(IAcquisitionRepository repository)
+        public AcquisitionController(IAcquisitionRepository repository, DiscountGrpcService discounGrpcService)
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+            this._discountGrpcService = discounGrpcService ?? throw new ArgumentNullException(nameof(discounGrpcService));
         }
 
         [HttpGet("{userName}", Name = "GetAcquisitionCheckout")]
@@ -29,6 +32,14 @@ namespace Acquisition.API.Controllers
         [ProducesResponseType(typeof(PaymentCheckout), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<PaymentCheckout>> UpdateAcquisitionCheckout([FromBody] PaymentCheckout paymentCheckout)
         {
+
+            //Communicate with Discount.Grpc
+            foreach (var item in paymentCheckout.Items)
+            {
+                var coupon = await _discountGrpcService.GetDiscount(item.ProductId);
+                item.Price -= coupon.Amount;
+            }
+
             return Ok(await _repository.UpdateAcquisitionCheckout(paymentCheckout));
         }
 

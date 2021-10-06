@@ -1,4 +1,7 @@
+using Acquisition.API.GrpcService;
 using Acquisition.Infrastructure.Repositories;
+using Discount.Grpc.Protos;
+using System.Security.Policy;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,7 +11,10 @@ builder.Services.AddStackExchangeRedisCache(options =>
 });
 
 builder.Services.AddScoped<IAcquisitionRepository, AcquisitionRepository>();
+builder.Services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>
+    (g => g.Address = new Uri(builder.Configuration["GrpcSettings:DiscountUrl"]));
 
+builder.Services.AddScoped<DiscountGrpcService>();
 // Add services to the container.
 
 builder.Services.AddControllers();
